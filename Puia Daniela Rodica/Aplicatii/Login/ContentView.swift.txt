@@ -1,0 +1,57 @@
+//  ContentView.swift
+//  Aolicatie
+//
+//  Created by Mihai on 10/29/1398 AP.
+//  Copyright © 1398 Mihai. All rights reserved.
+//
+
+import SwiftUI
+
+struct ContentView: View {
+    @EnvironmentObject var session: AppV
+    @State var activeTab: Int = 2
+    
+    func getUser() {
+        session.listen()
+    }
+    
+    var body: some View {
+        
+        ZStack {
+        LinearGradient(gradient: .init(colors: [Color("1"),Color("2")]), startPoint: .leading, endPoint:
+        .trailing).edgesIgnoringSafeArea(.all)
+            
+            TabView(selection: $activeTab) {
+                /* Text("Feed").tabItem {Image(systemName: "list.bullet")}.tag(1) */
+                FriendsView().tabItem {Image(systemName: "person.2.fill")}.tag(2)
+                Text("Groups").tabItem {Image(systemName: "person.3.fill")}.tag(3)
+                Text("Settings").tabItem {Image(systemName: "gear")}.tag(4)
+            }
+
+     VStack {
+            if (session.session != nil) {
+                Spacer()
+                Spacer()
+                Spacer()
+               
+                Button(action: session.signOut) {
+                    Spacer()
+                    Text("Sign out")
+                    Spacer()
+                    
+                }
+            } else {
+                AuthView()
+            }
+        }.onAppear(perform: getUser)
+            }
+    }
+   
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView().environmentObject(AppV())
+    }
+}
+s

@@ -1,0 +1,44 @@
+
+import SwiftUI
+
+struct FriendDetailsView: View {
+    var friend:Friend
+    
+    @State var showImagePicker:Bool = false
+    @State var showActionSheet:Bool = false
+    @State var image:Image?
+    @State var sourceType:Int = 0
+    
+    var body: some View {
+        ZStack {
+            VStack {
+                Image(friend.poster)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 200, alignment: .center)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding([.leading, .trailing])
+                VStack {
+                    Image(friend.avatar)
+                        .resizable()
+                        .clipped()
+                        .clipShape(Circle())
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 160, height: 160)
+                    Text(friend.name)
+                        .fontWeight(.bold)
+                }.offset(y: -70)
+                Spacer()
+            }
+            
+        .navigationBarTitle(Text(friend.name), displayMode: .inline)
+    }
+    }
+
+struct FriendDetailsView_Previews: PreviewProvider {
+    static var previews: some View {
+        FriendDetailsView(friend: Friend(name: "Noah", mutualFriends: 3, avatar: "sarah" , poster: "san" ))
+}
+}
+}

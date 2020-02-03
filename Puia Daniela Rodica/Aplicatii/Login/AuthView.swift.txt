@@ -1,0 +1,173 @@
+//
+//  AuthView.swift
+//  Aolicatie
+//
+//  Created by Mihai on 10/29/1398 AP.
+//  Copyright © 1398 Mihai. All rights reserved.
+//
+
+
+import SwiftUI
+
+struct SignInView: View {
+    @State var email: String = ""
+    @State var password: String = ""
+    @State var error: String = ""
+    @EnvironmentObject var session: AppV
+    
+    func signIn() {
+        session.signIn(email: email, password: password) { (result, error) in
+            if let error = error {
+                self.error = error.localizedDescription
+            } else {
+                self.email = ""
+                self.password = ""
+            }
+        }
+    }
+    var body: some View {
+        ZStack {
+            LinearGradient(gradient: .init(colors: [Color("1"),Color("2")]), startPoint: .leading, endPoint:
+            .trailing).edgesIgnoringSafeArea(.all)
+            VStack {
+            
+            Text("Welcome!")
+                .font(.system(size: 32, weight: .heavy))
+            
+            Text("Sign in to continue")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(Color(.black))
+            
+            VStack{
+            Image("").resizable().frame(width: 80, height: 80).padding(.bottom, 15)
+            
+            HStack{
+                Image(systemName: "envelope.fill").resizable().frame(width: 20, height: 20)
+                TextField("Email", text: $email).padding(.leading, 12).font(.system(size: 20))
+                
+            }.padding(12)
+            .background(Color("Color"))
+            .cornerRadius(20)
+                
+            HStack{
+                Image(systemName: "lock.fill").resizable().frame(width: 20, height: 20)
+                SecureField("Password", text: $password).padding(.leading, 12).font(.system(size: 20))
+        
+            }.padding(12)
+            .background(Color("Color"))
+            .cornerRadius(20)
+                
+                }
+                .padding(.vertical, 64)
+            
+            Button(action: signIn) {
+                Text("Login").foregroundColor(.white).padding().frame(width: 150)
+                    .background(LinearGradient(gradient: .init(colors: [Color(.black),Color(.black)]), startPoint: .leading, endPoint:
+                .trailing))
+                .cornerRadius(20)
+                .offset(y: 25)
+                .shadow(radius: 25)
+                }
+            if(error != "")
+                {
+                    Text(error)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.red)
+                    .padding()
+            }
+            Spacer()
+            
+            NavigationLink(destination: SignUpView()) {
+                HStack {
+                    Text("I'm a new user.")
+                        .font(.system(size: 16, weight: .light))
+                        .foregroundColor(.primary)
+                    
+                    Text("Create an account")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.red)
+                }
+            }
+        }
+        .padding(.horizontal, 32)
+    }
+    }
+}
+        
+struct SignUpView: View {
+    @State var email: String = ""
+    @State var password: String = ""
+    @State var error: String = ""
+    @EnvironmentObject var session: AppV
+    
+    func signUp() {
+        session.signUp(email: email, password: password) { (result, error) in
+            if let error = error {
+                self.error = error.localizedDescription
+            } else {
+                self.email = ""
+                self.password = ""
+            }
+        }
+    }
+    
+    var body: some View {
+        ZStack{
+            LinearGradient(gradient: .init(colors: [Color("1"),Color("2")]), startPoint: .leading, endPoint:
+            .trailing).edgesIgnoringSafeArea(.all)
+        VStack {
+            Text("Create Account")
+                .font(.system(size: 32, weight: .heavy))
+            Text("Sign up to get started")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(Color(.black))
+            
+            VStack(spacing: 18) {
+                TextField("Email address", text: $email)
+                .font(.system(size: 14))
+                .padding(12)
+                .background(Color("Color"))
+                .cornerRadius(20)
+                
+                SecureField("Password", text: $password)
+                .padding(12)
+                .font(.system(size: 14))
+                .background(Color("Color"))
+                .cornerRadius(20)
+            }.padding(.vertical, 64)
+            
+             Button(action: signUp) {
+                       Text("Create Account")
+                        .foregroundColor(.white).padding().frame(width: 150)
+                        .background(LinearGradient(gradient: .init(colors: [Color("1"),Color("2")]), startPoint: .leading, endPoint: .trailing))
+                        .cornerRadius(20)
+                        .offset(y: 25)
+                        .shadow(radius: 25)
+                   }
+            if(error != "")
+                {
+                    Text(error)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.red)
+                    .padding()
+            }
+            Spacer()
+            
+        }.padding(.horizontal, 32)
+    }
+    }
+}
+        
+struct AuthView: View {
+    var body: some View{
+        NavigationView {
+            SignInView()
+        }
+    }
+}
+struct AuthView_Previews: PreviewProvider {
+    static var previews: some View {
+    AuthView().environmentObject(AppV())
+    }
+}
+ 

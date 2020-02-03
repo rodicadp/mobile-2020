@@ -1,0 +1,43 @@
+//
+//  FriendsView.swift
+//  Aolicatie
+//
+//  Created by Mihai on 11/13/1398 AP.
+//  Copyright © 1398 Mihai. All rights reserved.
+//
+
+import SwiftUI
+
+struct Friend: Identifiable {
+    var id:UUID = UUID()
+    var name:String
+    var mutualFriends: Int
+    var avatar: String
+    var poster: String
+}
+
+struct FriendsView: View {
+    
+    var friends:[Friend] = [
+        Friend(name: "Efraim", mutualFriends: 12, avatar: "efraim", poster: "munti" ),
+        Friend(name: "Hadasa", mutualFriends: 51, avatar: "hadasa" , poster: "cladiri" ),
+        Friend(name: "Sarah", mutualFriends: 3, avatar: "sarah" , poster: "san" ),
+    ]
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                ForEach (friends, id: \.id) { friend in
+                    FriendRow(friend: friend).padding()
+                    
+                }.navigationBarTitle("Friends")
+            }
+        }
+    }
+}
+
+struct FriendsView_Previews: PreviewProvider {
+    static var previews: some View {
+        FriendsView()
+    }
+}
